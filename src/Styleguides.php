@@ -10,13 +10,18 @@
 
 namespace b3rning14\styleguides;
 
-use b3rning14\styleguides\twigextensions\StyleguidesTwigExtension\StyleguidesTwigExtension;
+use b3rning14\styleguides\models\Settings;
+use b3rning14\styleguides\twig\extensions\StyleguidesTwigExtension;
 use Craft;
 use craft\base\Plugin;
-use craft\services\Plugins;
 use craft\events\PluginEvent;
-use craft\web\twig\variables\CraftVariable;
+use craft\helpers\UrlHelper;
+use craft\services\Plugins;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use yii\base\Event;
+use yii\base\Exception;
 
 /**
  * Craft plugins are very much like little applications in and of themselves. We’ve made
@@ -32,6 +37,8 @@ use yii\base\Event;
  * @package   Styleguides
  * @since     1.0.0
  *
+ * @property Settings $settings
+ * @method Settings getSettings()
  */
 class Styleguides extends Plugin
 {
@@ -61,7 +68,7 @@ class Styleguides extends Plugin
      *
      * @var bool
      */
-    public $hasCpSettings = false;
+    public $hasCpSettings = true;
 
     /**
      * Set to `true` if the plugin should have its own section (main nav item) in the control panel.
@@ -74,15 +81,7 @@ class Styleguides extends Plugin
     // =========================================================================
 
     /**
-     * Set our $plugin static property to this class so that it can be accessed via
-     * Styleguides::$plugin
-     *
-     * Called after the plugin class is instantiated; do any one-time initialization
-     * here such as hooks and events.
-     *
-     * If you have a '/vendor/autoload.php' file, it will be loaded for you automatically;
-     * you do not need to load it in your init() method.
-     *
+     * Initializes the plugin.
      */
     public function init()
     {
@@ -92,22 +91,10 @@ class Styleguides extends Plugin
         // Add in our Twig extensions
         Craft::$app->view->registerTwigExtension(new StyleguidesTwigExtension());
 
-        Event::on(
-            CraftVariable::class,
-            CraftVariable::EVENT_INIT,
-            function (Event $event) {
-                /** @var CraftVariable $variable */
-                //$variable = $event->sender;
-                //$themeAssets = Craft::$app->view->registerAssetBundle(StarterThemeAsset::class);
-                //$manifestPath = FileHelper::createUrl($themeAssets->basePath, 'manifest.json');
-                //Vite::$plugin->setSettings(['manifestPath' => $manifestPath, 'serverPublic' => $themeAssets->baseUrl]);
-                //Vite::$plugin->init(); // Force to reload plugin instance to get correct settings
-            }
-        );
-
+        $this->_registerAfterInstallEvent();
 
         // Do something after we're installed
-        Event::on(
+        /*Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
             function (PluginEvent $event) {
@@ -115,26 +102,8 @@ class Styleguides extends Plugin
                     // We were just installed
                 }
             }
-        );
+        );*/
 
-/**
- * Logging in Craft involves using one of the following methods:
- *
- * Craft::trace(): record a message to trace how a piece of code runs. This is mainly for development use.
- * Craft::info(): record a message that conveys some useful information.
- * Craft::warning(): record a warning message that indicates something unexpected has happened.
- * Craft::error(): record a fatal error that should be investigated as soon as possible.
- *
- * Unless `devMode` is on, only Craft::warning() & Craft::error() will log to `craft/storage/logs/web.log`
- *
- * It's recommended that you pass in the magic constant `__METHOD__` as the second parameter, which sets
- * the category to the method (prefixed with the fully qualified class name) where the constant appears.
- *
- * To enable the Yii debug toolbar, go to your user account in the AdminCP and check the
- * [] Show the debug toolbar on the front end & [] Show the debug toolbar on the Control Panel
- *
- * http://www.yiiframework.com/doc-2.0/guide-runtime-logging.html
- */
         Craft::info(
             Craft::t(
                 'styleguides',
@@ -145,7 +114,57 @@ class Styleguides extends Plugin
         );
     }
 
+    /**
+     * Redirect user to plugin setting after installation if from CP
+     */
+    private function _registerAfterInstallEvent()
+    {
+        // Do something after we're installed
+        Event::on(
+            Plugins::class,
+            Plugins::EVENT_AFTER_INSTALL_PLUGIN,
+            function (PluginEvent $event) {
+                if ($event->plugin === $this && Craft::$app->getRequest()->getIsCpRequest()) {
+                    // Redirect to settings page
+                    Craft::$app->getResponse()->redirect(
+                        UrlHelper::cpUrl('settings/plugins/styleguides')
+                    )->send();
+                }
+            }
+        );
+    }
+
+
     // Protected Methods
     // =========================================================================
 
+    /**
+     * Creates and returns the model used to store the plugin’s settings.
+     *
+     * @return Settings|null
+     */
+    protected function createSettingsModel(): Settings
+    {
+        return new Settings();
+    }
+
+    /**
+     * Returns the rendered settings HTML, which will be inserted into the content
+     * block on the settings page.
+     *
+     * @return string The rendered settings HTML
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws Exception
+     * @throws LoaderError
+     */
+    protected function settingsHtml(): string
+    {
+        return Craft::$app->view->renderTemplate(
+            'styleguides/settings',
+            [
+                'settings' => $this->getSettings(),
+            ]
+        );
+    }
 }

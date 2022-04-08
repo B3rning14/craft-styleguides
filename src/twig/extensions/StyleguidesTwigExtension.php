@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2022 B3rning14
  */
 
-namespace b3rning14\styleguides\twigextensions\StyleguidesTwigExtension;
+namespace b3rning14\styleguides\twig\extensions;
 
 /*
 use b3rning14\styleguides\Styleguides;
