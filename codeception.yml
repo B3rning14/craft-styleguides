@@ -32,7 +32,7 @@ modules:
       migrations: []
       plugins:
         styleguides:
-          class: '\b3rning14craftstyleguides\styleguides\Styleguides'
+          class: '\b3rning14\styleguides\Styleguides'
           handle: styleguides
       cleanup: true
       transaction: true

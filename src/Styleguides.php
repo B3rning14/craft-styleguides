@@ -10,13 +10,12 @@
 
 namespace b3rning14\styleguides;
 
-use b3rning14\styleguides\twigextensions\StyleguidesTwigExtension;
-
+use b3rning14\styleguides\twigextensions\StyleguidesTwigExtension\StyleguidesTwigExtension;
 use Craft;
 use craft\base\Plugin;
 use craft\services\Plugins;
 use craft\events\PluginEvent;
-
+use craft\web\twig\variables\CraftVariable;
 use yii\base\Event;
 
 /**
@@ -92,6 +91,20 @@ class Styleguides extends Plugin
 
         // Add in our Twig extensions
         Craft::$app->view->registerTwigExtension(new StyleguidesTwigExtension());
+
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function (Event $event) {
+                /** @var CraftVariable $variable */
+                //$variable = $event->sender;
+                //$themeAssets = Craft::$app->view->registerAssetBundle(StarterThemeAsset::class);
+                //$manifestPath = FileHelper::createUrl($themeAssets->basePath, 'manifest.json');
+                //Vite::$plugin->setSettings(['manifestPath' => $manifestPath, 'serverPublic' => $themeAssets->baseUrl]);
+                //Vite::$plugin->init(); // Force to reload plugin instance to get correct settings
+            }
+        );
+
 
         // Do something after we're installed
         Event::on(

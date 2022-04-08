@@ -1,6 +1,6 @@
 {
     "name": "b3rning14/craft-styleguides",
-    "description": "Creates a simple styleguide",
+    "description": "Craft-styleguides plugin for Craft CMS 3.x",
     "type": "craft-plugin",
     "version": "1.0.0",
     "keywords": [
@@ -11,8 +11,8 @@
         "styleguides"
     ],
     "support": {
-        "docs": "https://github.com/B3rning14/styleguides/blob/master/README.md",
-        "issues": "https://github.com/B3rning14/styleguides/issues"
+        "docs": "https://github.com/B3rning14/craft-styleguides/blob/master/README.md",
+        "issues": "https://github.com/B3rning14/craft-styleguides/issues"
     },
     "license": "MIT",
     "authors": [
@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0"
+        "craftcms/cms": "^3.5.0"
     },
     "require-dev": {
       "craftcms/cms": "^3.2.0",
@@ -31,16 +31,29 @@
     },
     "autoload": {
         "psr-4": {
-          "b3rning14craftstyleguides\\styleguides\\": "src/"
+          "b3rning14\\styleguides\\": "src/"
+        }
+    },
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.4"
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
         }
     },
     "extra": {
-        "name": "Styleguides",
+        "name": "Craft Styleguides",
         "handle": "styleguides",
         "developer": "B3rning14",
         "developerUrl": "https://www.b3rning14.fr",
-        "documentationUrl": "https://github.com/B3rning14/styleguides/blob/master/README.md",
-        "changelogUrl": "https://raw.githubusercontent.com/B3rning14/styleguides/master/CHANGELOG.md",
-        "class": "b3rning14\\styleguides\\Styleguides"
+        "documentationUrl": "https://github.com/B3rning14/craft-styleguides/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/B3rning14/craft-styleguides/master/CHANGELOG.md",
+        "class": "b3rning14\\styleguides\\Styleguides",
+        "basePath": "."
     }
 }

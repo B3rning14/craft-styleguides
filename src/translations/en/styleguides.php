@@ -21,5 +21,5 @@
  * @since     1.0.0
  */
 return [
-    'styleguides plugin loaded' => 'styleguides plugin loaded',
+    '{name} plugin loaded' => '{name} plugin loaded',
 ];

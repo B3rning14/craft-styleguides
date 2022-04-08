@@ -10,9 +10,11 @@
 
 namespace b3rning14\styleguides\twigextensions\StyleguidesTwigExtension;
 
-use b3rning14craftstyleguides\styleguides\Styleguides;
+/*
+use b3rning14\styleguides\Styleguides;
 
 use Craft;
+*/
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -81,8 +83,6 @@ class StyleguidesTwigExtension extends AbstractExtension
      */
     public function someInternalFunction($text = null)
     {
-        $result = $text . " in the way";
-
-        return $result;
+        return $text . " in the way";
     }
 }
