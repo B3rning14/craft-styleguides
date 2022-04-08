@@ -1,0 +1,46 @@
+{
+    "name": "b3rning14/craft-styleguides",
+    "description": "Creates a simple styleguide",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "styleguides"
+    ],
+    "support": {
+        "docs": "https://github.com/B3rning14/styleguides/blob/master/README.md",
+        "issues": "https://github.com/B3rning14/styleguides/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "B3rning14",
+            "homepage": "https://www.b3rning14.fr"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0"
+    },
+    "require-dev": {
+      "craftcms/cms": "^3.2.0",
+      "codeception/codeception": "^3.0",
+      "vlucas/phpdotenv": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+          "b3rning14craftstyleguides\\styleguides\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Styleguides",
+        "handle": "styleguides",
+        "developer": "B3rning14",
+        "developerUrl": "https://www.b3rning14.fr",
+        "documentationUrl": "https://github.com/B3rning14/styleguides/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/B3rning14/styleguides/master/CHANGELOG.md",
+        "class": "b3rning14\\styleguides\\Styleguides"
+    }
+}
