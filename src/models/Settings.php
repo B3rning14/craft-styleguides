@@ -1,10 +1,17 @@
 <?php
 namespace b3rning14\styleguides\models;
 
-//use Craft;
 use craft\base\Model;
-//use craft\behaviors\EnvAttributeParserBehavior;
 
 class Settings extends Model {
+    public string $foo = 'defaultFooValue';
+    public string $bar = 'defaultBarValue';
 
+    public function rules(): array
+    {
+        return [
+            [['foo', 'bar'], 'required'],
+            // ...
+        ];
+    }
 }

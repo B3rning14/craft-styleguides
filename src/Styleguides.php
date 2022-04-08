@@ -15,13 +15,11 @@ use b3rning14\styleguides\twig\extensions\StyleguidesTwigExtension;
 use Craft;
 use craft\base\Plugin;
 use craft\events\PluginEvent;
+use craft\events\RegisterTemplateRootsEvent;
 use craft\helpers\UrlHelper;
 use craft\services\Plugins;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
+use craft\web\View;
 use yii\base\Event;
-use yii\base\Exception;
 
 /**
  * Craft plugins are very much like little applications in and of themselves. We’ve made
@@ -141,7 +139,7 @@ class Styleguides extends Plugin
     /**
      * Creates and returns the model used to store the plugin’s settings.
      *
-     * @return Settings|null
+     * @return Settings
      */
     protected function createSettingsModel(): Settings
     {
@@ -153,17 +151,20 @@ class Styleguides extends Plugin
      * block on the settings page.
      *
      * @return string The rendered settings HTML
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws Exception
-     * @throws LoaderError
      */
     protected function settingsHtml(): string
     {
+        $configService = Craft::$app->getConfig();
+        $config = $configService->getConfigFromFile('styleguides');
+        if (!empty($config)) {
+            $configPath = $configService->getConfigFilePath('styleguides');
+        }
+
         return Craft::$app->view->renderTemplate(
             'styleguides/settings',
             [
                 'settings' => $this->getSettings(),
+                'configPath' => $configPath ?? null
             ]
         );
     }

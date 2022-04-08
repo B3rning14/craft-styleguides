@@ -1,5 +1,6 @@
 <?php
 
 return [
-  'foo' => 'bar'
+    'foo' => 'overriddenFooValue',
+    'bar' => 'overriddenBarValue',
 ];

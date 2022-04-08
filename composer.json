@@ -54,6 +54,6 @@
         "documentationUrl": "https://github.com/B3rning14/craft-styleguides/blob/master/README.md",
         "changelogUrl": "https://raw.githubusercontent.com/B3rning14/craft-styleguides/master/CHANGELOG.md",
         "class": "b3rning14\\styleguides\\Styleguides",
-        "basePath": "."
+        "basePath": "src"
     }
 }
